@@ -1,6 +1,7 @@
-# 🏔️ Zama Mining Game
+# ⚡ Zama Mining Game - 雷神之锤版
 
 > 基于 **Zama FHE (全同态加密)** 技术的完全保密链上挖矿游戏
+> 🔨 **特色**: 雷神之锤风格设计,5个等级带闪电特效
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.24-green.svg)](https://soliditylang.org/)
@@ -13,19 +14,25 @@
 
 - 🔐 **完全保密** - 幸运值、收益、掉落记录全部 FHE 加密存储
 - 🎲 **公平随机** - FHE 随机数生成,无法预测或操纵
-- ⚡ **性能优化** - viaIR 编译器优化,移动端完美适配
-- 🎮 **即插即用** - 完整的前后端,一键部署到 Zama Devnet
+- ⚡ **雷神之锤设计** - 5个等级带独特颜色和闪电特效
+- 🎮 **即插即用** - 完整的前后端,一键部署到 Sepolia 或 Zama Devnet
 - 📱 **移动友好** - 响应式设计,支持 320px - 768px 设备
+- 🌐 **外部访问** - 开发服务器支持局域网访问
 
 ---
 
 ## 🎮 游戏玩法
 
-1. **铸造锄头** 💎
-   支付 ETH,获得 NFT 锄头 (5个等级,价格 0.01 - 0.50 ETH)
+1. **铸造雷神之锤** ⚡
+   支付 ETH,获得雷神之锤 NFT (5个等级,价格 0.01 - 0.50 ETH)
+   - 等级 1 (普通): 灰色锤子
+   - 等级 2 (优良): 绿色锤子
+   - 等级 3 (稀有): 蓝色锤子
+   - 等级 4 (史诗): 紫色锤子 + 闪电特效
+   - 等级 5 (传说): 金色锤子 + 闪电 + 能量粒子
 
 2. **执行挖矿** ⛏️
-   消耗耐久,获得加密奖励 (FHE 随机概率计算)
+   选择锤子和挖矿次数 (1/5/10/20/50),消耗耐久获得加密奖励
 
 3. **领取奖励** 💰
    解密收益,铸造 GOLD 代币
@@ -37,7 +44,7 @@
 
 ## 🚀 快速开始
 
-### 5 分钟部署到 Zama Devnet
+### 5 分钟部署到 Sepolia
 
 ```bash
 # 1. 克隆项目
@@ -51,21 +58,24 @@ npm install
 cp .env.example .env
 # 编辑 .env 填入:
 # - PRIVATE_KEY (从 MetaMask 导出,移除 0x)
+# - SEPOLIA_RPC_URL (使用 Infura 或 Alchemy)
 # - VITE_WALLETCONNECT_PROJECT_ID (从 https://cloud.walletconnect.com/ 获取)
 
 # 4. 编译合约
 npm run compile
 
-# 5. 部署到 Zama Devnet
-npm run deploy:zama
+# 5. 部署到 Sepolia
+npm run deploy:sepolia
 
-# 6. 启动前端
+# 6. 启动前端 (支持外部访问)
 cd frontend
 npm install
 npm run dev
+# 访问: http://localhost:3000 (本地)
+# 访问: http://your-ip:3000 (局域网)
 ```
 
-**📖 详细指南:** 查看 [QUICK_START.md](QUICK_START.md)
+**📖 详细指南:** 查看 [DEPLOYMENT.md](DEPLOYMENT.md) 了解 Ubuntu 服务器部署
 
 ---
 
@@ -75,18 +85,18 @@ npm run dev
 zama_GoldmMint/
 ├── contracts/              # 智能合约 (4个核心合约)
 │   ├── GoldToken.sol      # ERC20 游戏代币 (通缩机制)
-│   ├── PickaxeNFT.sol     # ERC721 锄头 NFT (FHE 加密幸运值)
+│   ├── PickaxeNFT.sol     # ERC721 雷神之锤 NFT (FHE 加密幸运值)
 │   ├── MiningEngine.sol   # FHE 挖矿引擎 (核心逻辑)
 │   └── TreasureNFT.sol    # ERC1155 稀有物品 (5种类型)
 │
 ├── frontend/              # React + TypeScript 前端
 │   ├── src/
-│   │   ├── components/    # UI 组件 (Button, Card, PickaxeCard...)
+│   │   ├── components/    # UI 组件 (Button, Card, ThorHammer...)
 │   │   ├── hooks/         # 自定义 Hooks (FHE 重加密)
 │   │   ├── pages/         # 页面 (挖矿/铸造/背包/奖励)
 │   │   ├── contracts/     # ABI 和合约地址配置
 │   │   └── utils/         # FHE 工具 (fhevmjs)
-│   └── package.json
+│   └── vite.config.ts    # Vite 配置 (支持外部访问)
 │
 ├── scripts/               # 部署和交互脚本
 │   ├── deploy.js          # 完整部署流程
@@ -95,7 +105,8 @@ zama_GoldmMint/
 ├── test/                  # 测试套件
 │   └── MiningGame.test.js # 33+ 测试用例
 │
-├── hardhat.config.js      # Hardhat 配置 (Zama Devnet)
+├── hardhat.config.js      # Hardhat 配置 (Sepolia + Zama Devnet)
+├── DEPLOYMENT.md          # Ubuntu 服务器部署指南
 ├── package.json           # 项目依赖和脚本
 └── .env.example           # 环境变量模板
 ```
@@ -188,19 +199,34 @@ npm run interact:local
 ### 已实现页面
 
 - ✅ **首页** - 项目介绍和特性展示
-- ✅ **铸造页** - 铸造 5 个等级的锄头 NFT
-- ✅ **挖矿页** - 选择锄头执行挖矿
+- ✅ **铸造页** - 铸造 5 个等级的雷神之锤 NFT (带动画特效)
+- ✅ **挖矿页** - 选择锤子和挖矿次数执行挖矿
 - ✅ **背包页** - 查看所有 NFT 和代币余额
 - ✅ **奖励页** - 领取加密收益和稀有物品
+
+### 雷神之锤设计特性
+
+- ⚡ **5 个等级颜色系统**: 灰/绿/蓝/紫/金
+- ✨ **动画特效**:
+  - 等级 4+: 闪电环绕动画
+  - 等级 5: 能量粒子爆发 + 金色光晕
+  - 全等级: 悬浮动画和光效
+- 🎨 **SVG 精细设计**:
+  - 立体锤头 + 侧翼装饰
+  - 雷纹刻印
+  - 木质锤柄 + 金属缠绕
+  - 底部宝石装饰
 
 ### 技术特性
 
 - ✅ 移动端完美适配 (320px - 768px)
-- ✅ 暗色主题 (黄金配色)
+- ✅ 暗色主题 (黄金 + 紫色配色)
 - ✅ FHE 重加密集成 (fhevmjs)
 - ✅ 钱包连接 (MetaMask/WalletConnect)
 - ✅ 实时数据刷新 (TanStack Query)
 - ✅ 响应式导航栏 (汉堡菜单)
+- ✅ 外部访问支持 (局域网可访问)
+- ✅ Framer Motion 动画库
 
 ---
 
@@ -222,50 +248,52 @@ npm run interact:local
 ### 前端
 
 - **React** 18 + **TypeScript** 5.2
-- **Vite** 5.0 (构建工具)
+- **Vite** 5.0 (构建工具,支持外部访问)
 - **Wagmi** v2 + **RainbowKit** (钱包连接)
-- **fhevmjs** ^0.5.0 (FHE 重加密)
+- **fhevmjs** ^0.5.8 (FHE 重加密)
 - **TanStack Query** v5 (状态管理)
 - **Tailwind CSS** 3.3 (样式)
+- **Framer Motion** ^11.0 (动画库)
 
 ---
 
 ## 📊 项目状态
 
-### 完成度: **98%** 🎉
+### 完成度: **99%** 🎉
 
 | 功能模块 | 进度 | 状态 |
 |---------|------|------|
 | 核心智能合约 (4个) | 100% | ✅ 已完成 |
 | 测试套件 (33+ 用例) | 100% | ✅ 全部通过 |
 | FHE 重加密功能 | 100% | ✅ 已集成 |
+| 雷神之锤 UI 设计 | 100% | ✅ 已完成 |
 | 移动端适配 | 100% | ✅ 已优化 |
+| 外部访问支持 | 100% | ✅ 已配置 |
+| Sepolia 部署 | 100% | ✅ 已部署 |
+| Ubuntu 部署文档 | 100% | ✅ 已完成 |
 | Zama Devnet 配置 | 100% | ✅ 已配置 |
-| 部署文档 | 100% | ✅ 已完成 |
-| 实际部署 | 0% | ⏸️ 待执行 |
-| Gateway 集成 | 0% | ⏸️ 可选 |
-| 安全审计 | 0% | ⏸️ 待进行 |
 
-**下一步:** 部署到 Zama Devnet (只需测试币!)
+**当前状态:** 已部署到 Sepolia 测试网,可完整体验所有功能
 
 ---
 
 ## 📚 完整文档
 
 ### 入门文档
-- 📖 [快速开始](QUICK_START.md) - 5分钟部署指南
-- 📖 [完整部署](ZAMA_DEVNET_DEPLOYMENT.md) - Zama Devnet 详细流程 (10章节)
-- 📖 [配置总结](DEPLOYMENT_SUMMARY.md) - 所有修改的文件和参数
+- 📖 [Ubuntu 部署指南](DEPLOYMENT.md) - 服务器部署完整流程
+- 📖 [快速开始](QUICK_START.md) - 5分钟部署指南 (如果存在)
+- 📖 [Zama Devnet 部署](ZAMA_DEVNET_DEPLOYMENT.md) - Zama 详细流程 (如果存在)
 
 ### 开发文档
-- 📖 [开发指南](CLAUDE.md) - 架构和最佳实践
-- 📖 [项目总结](PROJECT_SUMMARY.md) - 技术亮点和完成度
-- 📖 [FHE 使用](frontend/FHE_USAGE.md) - fhevmjs 重加密指南
+- 📖 [开发指南](CLAUDE.md) - 架构和最佳实践 (如果存在)
+- 📖 [项目总结](PROJECT_SUMMARY.md) - 技术亮点和完成度 (如果存在)
+- 📖 [FHE 使用](frontend/FHE_USAGE.md) - fhevmjs 重加密指南 (如果存在)
 
-### 其他文档
-- 📖 [Gateway 集成](GATEWAY_INTEGRATION_GUIDE.md) - 异步解密方案
-- 📖 [本地测试说明](LOCAL_TESTING_NOTE.md) - FHE 环境限制
-- 📖 [完成报告](COMPLETION_REPORT.md) - 详细完成清单
+### 已部署合约地址 (Sepolia)
+- **GoldToken**: `0x2cC0ACD868F5013429Cd610Ec1E296ab2888bb7D`
+- **PickaxeNFT**: `0xd1c6187E189f4CFaae36743ba1EE0d4cCf6e7C1c`
+- **MiningEngine**: `0x8511403A10892B8F7C4fFE07c2724cC7C3201C5b`
+- **TreasureNFT**: `0x5eeC686112345485Bf23754679aCcd02aeE36D9B`
 
 ---
 
@@ -304,8 +332,10 @@ cd frontend
 # 安装依赖
 npm install
 
-# 开发服务器
+# 开发服务器 (支持外部访问)
 npm run dev
+# 本地访问: http://localhost:3000
+# 局域网访问: http://your-ip:3000
 
 # 生产构建
 npm run build
@@ -320,6 +350,28 @@ npm run lint
 ---
 
 ## 🛠️ 开发指南
+
+### 自定义雷神之锤组件
+
+在您的页面中使用雷神之锤图标:
+
+```tsx
+import { ThorHammer, ThorHammerIcon } from '@/components/ThorHammer';
+
+// 完整版锤子 (带所有动画特效)
+<ThorHammer
+  className="w-24 h-24"
+  level={5}           // 等级 1-5
+  animated={true}     // 启用悬浮动画
+  glowing={true}      // 启用光晕效果
+/>
+
+// 简化版小图标
+<ThorHammerIcon
+  className="w-6 h-6"
+  level={3}
+/>
+```
 
 ### 添加新的挖矿概率规则
 
@@ -445,9 +497,7 @@ MIT License
 
 ### 开发资源
 - **Hardhat 文档:** https://hardhat.org/docs
-- **Wagmi 文档:** https://wagmi.sh
 - **fhevmjs 文档:** https://github.com/zama-ai/fhevmjs
-- **Tailwind CSS:** https://tailwindcss.com
 
 ---
 
@@ -457,14 +507,17 @@ MIT License
 - ✅ 核心智能合约开发
 - ✅ FHE 加密功能集成
 - ✅ 完整前端应用
+- ✅ 雷神之锤 UI 设计
 - ✅ 移动端适配
-- ✅ Zama Devnet 配置
+- ✅ Sepolia 测试网部署
+- ✅ Ubuntu 服务器部署文档
 
 ### 🎯 进行中 (v1.1)
-- 🎯 部署到 Zama Devnet
 - 🎯 社区测试和反馈
+- 🎯 性能优化
 
 ### 🔜 计划中 (v2.0)
+- 🔜 部署到 Zama Devnet (真正的 FHE)
 - 🔜 Gateway 异步解密集成
 - 🔜 排行榜系统
 - 🔜 成就系统
@@ -479,25 +532,33 @@ MIT License
 
 ---
 
-## 💬 联系方式
-
-- **GitHub Issues:** [项目 Issues](https://github.com/your-repo/issues)
-- **Email:** your-email@example.com
-- **Twitter:** [@your_handle](https://twitter.com/your_handle)
-- **Discord:** [Join our server](https://discord.gg/your-invite)
-
----
 
 ## 🎮 开始体验
 
-**准备好体验完全保密的链上游戏了吗?**
+**准备好体验雷神之锤挖矿游戏了吗?**
 
-1. 📖 阅读 [快速开始指南](QUICK_START.md)
-2. 🪙 获取 [Zama 测试币](https://faucet.zama.ai)
-3. 🚀 开始部署!
+### 选项 1: 在线体验 (Sepolia 测试网)
+1. 🦊 安装 MetaMask 并连接 Sepolia 网络
+2. 🪙 获取 [Sepolia 测试币](https://sepoliafaucet.com/)
+3. 🌐 访问在线演示 (部署后更新)
+4. ⚡ 开始铸造雷神之锤!
+
+### 选项 2: 本地部署
+1. 📖 阅读 [快速开始指南](#-快速开始)
+2. 🚀 按照步骤部署到本地或测试网
+3. 🎮 启动前端并开始游戏
+
+### 选项 3: 服务器部署
+1. 📖 查看 [DEPLOYMENT.md](DEPLOYMENT.md)
+2. 🖥️ 在 Ubuntu 服务器上部署
+3. 🌍 通过域名访问
 
 ```bash
-npm run deploy:zama
+# 快速开始命令
+npm install
+npm run compile
+npm run deploy:sepolia
+cd frontend && npm install && npm run dev
 ```
 
 ---
@@ -505,11 +566,11 @@ npm run deploy:zama
 <div align="center">
 
 **创建时间:** 2025-10-05
-**最后更新:** 2025-10-05
+**最后更新:** 2025-10-06
 **维护者:** Zama Mining Game Team
 
 **⭐ 如果这个项目对您有帮助,请给个 Star!**
 
-Made with ❤️ using Zama FHE Technology
+Made with ⚡ using Zama FHE Technology & Thor's Hammer Design
 
 </div>
