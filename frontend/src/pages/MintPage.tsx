@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { usePickaxeLevelConfig } from '@/hooks/usePickaxe';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
@@ -9,16 +9,17 @@ import { formatBigInt } from '@/utils/helpers';
 import { Hammer, Zap, Shield, Star, Battery, Cpu } from 'lucide-react';
 import { useChainId } from 'wagmi';
 import { parseEther } from 'viem';
+import { initializeFHE, generateEncryptedLuck } from '@/utils/fhe';
 
 const LEVELS = [1, 2, 3, 4, 5];
 
-// 模拟数据 - 当合约未部署时使用
+// 模拟数据 - 当合约未部署时使用 (5个值: mintPrice, durabilityMax, efficiency, luckMin, luckMax)
 const MOCK_LEVEL_CONFIGS = {
-  1: [parseEther('0.01'), 1000n, 10n, 20n, 5n, 15n] as const,
-  2: [parseEther('0.05'), 2000n, 20n, 40n, 10n, 30n] as const,
-  3: [parseEther('0.1'), 3000n, 40n, 60n, 20n, 50n] as const,
-  4: [parseEther('0.2'), 5000n, 60n, 100n, 40n, 80n] as const,
-  5: [parseEther('0.5'), 10000n, 100n, 200n, 80n, 150n] as const,
+  1: [parseEther('0.01'), 1000n, 10n, 5n, 15n] as const,
+  2: [parseEther('0.05'), 2000n, 20n, 10n, 30n] as const,
+  3: [parseEther('0.1'), 3000n, 40n, 20n, 50n] as const,
+  4: [parseEther('0.2'), 5000n, 60n, 40n, 80n] as const,
+  5: [parseEther('0.5'), 10000n, 100n, 80n, 150n] as const,
 };
 
 export function MintPage() {
@@ -27,22 +28,85 @@ export function MintPage() {
   const addresses = getContractAddresses(chainId);
 
   const [selectedLevel, setSelectedLevel] = useState(1);
+  const [isFHEReady, setIsFHEReady] = useState(false);
 
   // 铸造交易
-  const { writeContract, data: hash } = useWriteContract();
+  const { writeContract, data: hash, error: writeError } = useWriteContract();
   const { isLoading: isMinting, isSuccess } = useWaitForTransactionReceipt({ hash });
 
-  // 处理铸造
-  const handleMint = async (level: number, price: bigint) => {
-    if (!address) return;
+  // 监听写入错误
+  useEffect(() => {
+    if (writeError) {
+      console.error('❌ Wagmi 写入错误:', writeError);
+      console.error('错误详情:', {
+        name: writeError.name,
+        message: writeError.message,
+        cause: writeError.cause,
+        stack: writeError.stack,
+      });
+      alert(`交易失败: ${writeError.message}\n\n详情: ${JSON.stringify(writeError.cause, null, 2)}`);
+    }
+  }, [writeError]);
 
-    writeContract({
-      address: addresses.pickaxeNFT,
-      abi: PICKAXE_NFT_ABI,
-      functionName: 'mintPickaxe',
-      args: [level],
-      value: price,
-    });
+  // 初始化 FHE
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initializeFHE();
+        setIsFHEReady(true);
+        console.log('✅ FHE 初始化完成');
+      } catch (error) {
+        console.error('❌ FHE 初始化失败:', error);
+      }
+    };
+    init();
+  }, []);
+
+  // 处理铸造
+  const handleMint = async (level: number, price: bigint, luckMin: number, luckMax: number) => {
+    if (!address || !isFHEReady) {
+      console.error('❌ 钱包未连接或 FHE 未就绪');
+      return;
+    }
+
+    try {
+      console.log('🔐 开始生成 FHE 加密幸运值...');
+
+      // 生成加密的幸运值
+      const encryptedLuck = await generateEncryptedLuck(
+        luckMin,
+        luckMax,
+        addresses.pickaxeNFT,
+        address
+      );
+
+      // 将 Uint8Array 转换为十六进制字符串 (0x...)
+      const encryptedLuckHex = `0x${Array.from(encryptedLuck)
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('')}` as `0x${string}`;
+
+      console.log('📤 发送铸造交易...');
+      console.log('合约地址:', addresses.pickaxeNFT);
+      console.log('参数:', {
+        level,
+        encryptedLuckHex,
+        encryptedLuckLength: encryptedLuck.length,
+        price: price.toString()
+      });
+
+      writeContract({
+        address: addresses.pickaxeNFT,
+        abi: PICKAXE_NFT_ABI,
+        functionName: 'mintPickaxe',
+        args: [level, encryptedLuckHex],
+        value: price,
+      });
+
+      console.log('✅ writeContract 调用成功');
+    } catch (error) {
+      console.error('❌ 铸造失败:', error);
+      alert(`铸造失败: ${error instanceof Error ? error.message : String(error)}`);
+    }
   };
 
   if (!address) {
@@ -253,7 +317,7 @@ function LevelCard({
   level: number;
   selected: boolean;
   onSelect: () => void;
-  onMint: (level: number, price: bigint) => void;
+  onMint: (level: number, price: bigint, luckMin: number, luckMax: number) => void;
   minting: boolean;
 }) {
   const { data: config, isLoading } = usePickaxeLevelConfig(level);
@@ -269,7 +333,7 @@ function LevelCard({
     );
   }
 
-  const [price, durabilityMax, efficiencyMin, efficiencyMax, luckMin, luckMax] = actualConfig;
+  const [price, durabilityMax, efficiency, luckMin, luckMax] = actualConfig;
 
   const getLevelColor = (lvl: number) => {
     switch (lvl) {
@@ -410,7 +474,7 @@ function LevelCard({
                 <span className="text-sm text-gray-300">效率</span>
               </div>
               <span className="text-sm font-bold text-white">
-                {Number(efficiencyMin)}-{Number(efficiencyMax)}%
+                +{Number(efficiency)}%
               </span>
             </div>
 
@@ -445,7 +509,7 @@ function LevelCard({
             className="w-full"
             onClick={(e) => {
               e.stopPropagation();
-              onMint(level, price);
+              onMint(level, price, Number(luckMin), Number(luckMax));
             }}
             loading={minting}
             disabled={minting || usingMockData}

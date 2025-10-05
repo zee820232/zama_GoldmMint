@@ -5,19 +5,16 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@fhevm/solidity/lib/FHE.sol";
-
 /**
  * @title PickaxeNFT
- * @dev NFT 锄头合约,支持铸造、修理、属性管理
+ * @dev NFT 锄头合约,支持铸造、修理、属性管理 (FHE 前端加密版本)
  *
  * 核心功能:
  * - 五个等级的锄头(1-5级)
- * - 属性包括:等级、耐久、效率、幸运值(加密)
+ * - 属性包括:等级、耐久、效率、幸运值(前端 FHE 加密)
  * - 支持修理和耐久消耗
  */
 contract PickaxeNFT is ERC721, ERC721Enumerable, Ownable, ReentrancyGuard {
-    using FHE for *;
 
     // ========== 结构体定义 ==========
 
@@ -26,7 +23,7 @@ contract PickaxeNFT is ERC721, ERC721Enumerable, Ownable, ReentrancyGuard {
         uint16 durabilityMax;   // 最大耐久
         uint16 durability;      // 当前耐久
         uint8 efficiency;       // 效率基数
-        euint8 luck;            // 幸运值(加密) - 影响稀有掉落
+        bytes encryptedLuck;    // 幸运值(FHE 加密的 bytes) - 影响稀有掉落
     }
 
     // ========== 状态变量 ==========
@@ -131,38 +128,27 @@ contract PickaxeNFT is ERC721, ERC721Enumerable, Ownable, ReentrancyGuard {
     // ========== 核心功能 ==========
 
     /**
-     * @dev 铸造锄头
+     * @dev 铸造锄头(接受前端 FHE 加密的幸运值)
      * @param level 锄头等级 (1-5)
+     * @param encryptedLuck 前端使用 fhevmjs 加密的幸运值
      */
-    function mintPickaxe(uint8 level) external payable nonReentrant returns (uint256) {
+    function mintPickaxe(uint8 level, bytes calldata encryptedLuck) external payable nonReentrant returns (uint256) {
         require(level >= 1 && level <= 5, "Invalid level");
         LevelConfig memory config = levelConfigs[level];
         require(msg.value >= config.mintPrice, "Insufficient payment");
+        require(encryptedLuck.length > 0, "Invalid encrypted luck");
 
         _tokenIdCounter++;
         uint256 newTokenId = _tokenIdCounter;
 
-        // 生成加密随机幸运值
-        euint8 randomLuck = FHE.randEuint8();
-
-        // 映射到范围 [luckMin, luckMax]
-        uint8 luckRange = config.luckMax - config.luckMin;
-        euint8 luck = FHE.add(
-            FHE.rem(randomLuck, luckRange),
-            FHE.asEuint8(config.luckMin)
-        );
-
-        // 创建属性
+        // 创建属性 - 直接存储前端加密的幸运值
         _attributes[newTokenId] = PickaxeAttributes({
             level: level,
             durabilityMax: config.durabilityMax,
             durability: config.durabilityMax,
             efficiency: config.efficiency,
-            luck: luck
+            encryptedLuck: encryptedLuck
         });
-
-        // 授权持有者访问 luck
-        FHE.allow(luck, msg.sender);
 
         // 铸造 NFT
         _safeMint(msg.sender, newTokenId);
@@ -243,11 +229,11 @@ contract PickaxeNFT is ERC721, ERC721Enumerable, Ownable, ReentrancyGuard {
     }
 
     /**
-     * @dev 获取加密幸运值(需要授权)
+     * @dev 获取加密幸运值
      */
-    function getLuck(uint256 tokenId) external view returns (euint8) {
+    function getLuck(uint256 tokenId) external view returns (bytes memory) {
         require(_ownerOf(tokenId) != address(0), "Token does not exist");
-        return _attributes[tokenId].luck;
+        return _attributes[tokenId].encryptedLuck;
     }
 
     /**

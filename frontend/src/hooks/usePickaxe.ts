@@ -14,7 +14,7 @@ export function usePlayerPickaxes(address?: `0x${string}`) {
   return useReadContract({
     address: addresses.pickaxeNFT,
     abi: PICKAXE_NFT_ABI,
-    functionName: 'tokensOfOwner',
+    functionName: 'getPlayerPickaxes', // 修复: 使用正确的函数名
     args: address ? [address] : undefined,
     query: {
       enabled: !!address,
@@ -118,7 +118,7 @@ export function usePickaxeLevelConfig(level: number) {
   return useReadContract({
     address: addresses.pickaxeNFT,
     abi: PICKAXE_NFT_ABI,
-    functionName: 'getLevelConfig',
+    functionName: 'levelConfigs', // 修复: 使用 levelConfigs 而不是 getLevelConfig
     args: [level],
   });
 }

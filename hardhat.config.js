@@ -29,11 +29,16 @@ export default {
       chainId: 31337
     },
 
-    // Sepolia 测试网
+    // Sepolia 测试网 (支持 FHE 通过 Zama Relayer)
     sepolia: {
-      url: process.env.SEPOLIA_RPC_URL || "https://sepolia.infura.io/v3/YOUR_KEY",
+      url: process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 11155111
+      chainId: 11155111,
+      timeout: 120000, // FHE 操作需要更长时间
+      gasPrice: "auto",
+      // Zama FHE 配置 (通过 Relayer 支持)
+      relayerUrl: process.env.RELAYER_URL || "https://relayer.testnet.zama.cloud",
+      aclAddress: process.env.SEPOLIA_ACL_ADDRESS || "0x2Fb4341027eb1d2aD8B5D9708187df8633cAFA92"
     },
 
     // Zama fhEVM Devnet (官方测试网)

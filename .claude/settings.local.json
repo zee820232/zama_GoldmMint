@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__open-websearch__fetchGithubReadme",
+      "mcp__open-websearch__search"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

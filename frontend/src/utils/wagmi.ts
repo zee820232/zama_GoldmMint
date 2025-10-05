@@ -58,11 +58,14 @@ export const config = getDefaultConfig({
 
 /**
  * 获取当前网络的 Gateway URL (用于 FHE 解密)
+ * Sepolia 通过 Zama Relayer 支持 FHE
  */
 export function getGatewayUrl(chainId: number): string | undefined {
   switch (chainId) {
     case 9000: // Zama Devnet
       return 'https://gateway.devnet.zama.ai';
+    case 11155111: // Sepolia (通过 Relayer)
+      return 'https://relayer.testnet.zama.cloud';
     default:
       return undefined;
   }
@@ -74,6 +77,7 @@ export function getGatewayUrl(chainId: number): string | undefined {
 export function getACLAddress(chainId: number): `0x${string}` | undefined {
   switch (chainId) {
     case 9000: // Zama Devnet
+    case 11155111: // Sepolia
       return '0x2Fb4341027eb1d2aD8B5D9708187df8633cAFA92';
     default:
       return undefined;
@@ -82,8 +86,9 @@ export function getACLAddress(chainId: number): `0x${string}` | undefined {
 
 /**
  * 检查当前网络是否支持 FHE
+ * Sepolia 通过 Zama Relayer 支持 FHE 功能!
  */
 export function isFHESupported(chainId: number): boolean {
-  return chainId === 9000; // 只有 Zama Devnet 支持 FHE
+  return chainId === 9000 || chainId === 11155111; // Zama Devnet 或 Sepolia
 }
 

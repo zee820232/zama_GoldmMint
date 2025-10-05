@@ -1,0 +1,18 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deployer": "0x8Db8e27e1255Fc871f281A17F18C997d24a7005A",
+  "deploymentDate": "2025-10-05T00:00:00.000Z",
+  "note": "前端 FHE 加密版本",
+  "contracts": {
+    "goldToken": "0x2cC0ACD868F5013429Cd610Ec1E296ab2888bb7D",
+    "pickaxeNFT": "0xd1c6187E189f4CFaae36743ba1EE0d4cCf6e7C1c",
+    "miningEngine": "0x8511403A10892B8F7C4fFE07c2724cC7C3201C5b",
+    "treasureNFT": "0x5eeC686112345485Bf23754679aCcd02aeE36D9B"
+  },
+  "fheSetup": {
+    "encryption": "frontend",
+    "library": "fhevmjs",
+    "gateway": "https://gateway.zama.ai"
+  }
+}

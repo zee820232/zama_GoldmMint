@@ -8,6 +8,7 @@ import { MinePage } from './pages/MinePage';
 import { MintPage } from './pages/MintPage';
 import { InventoryPage } from './pages/InventoryPage';
 import { RewardsPage } from './pages/RewardsPage';
+import { DebugPage } from './pages/DebugPage';
 import { ParticleBackground } from './components/ParticleBackground';
 import { Hammer, Home, Package, Coins, Cpu, Menu, X } from 'lucide-react';
 import { useState } from 'react';
@@ -32,6 +33,7 @@ function App() {
                   <Route path="/mint" element={<MintPage />} />
                   <Route path="/inventory" element={<InventoryPage />} />
                   <Route path="/rewards" element={<RewardsPage />} />
+                  <Route path="/debug" element={<DebugPage />} />
                 </Routes>
               </main>
             </div>

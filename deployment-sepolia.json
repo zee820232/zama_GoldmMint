@@ -1,0 +1,18 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deployer": "0x8Db8e27e1255Fc871f281A17F18C997d24a7005A",
+  "timestamp": "2025-10-05T13:03:04.357Z",
+  "contracts": {
+    "goldToken": "0x16c242974D30F1209f98749Af4e13e1438950Cb6",
+    "pickaxeNFT": "0xAB2F5407cf2d6A7aEd976F670241b2a6D3B55D7F",
+    "miningEngine": "0x6D2743CdbEb8B998fCf748e93EF815a51A5Ee1b7",
+    "treasureNFT": "0x9d8f35858c6B2C9bd1708436744f325BDaeC5578"
+  },
+  "explorer": {
+    "goldToken": "https://sepolia.etherscan.io/address/0x16c242974D30F1209f98749Af4e13e1438950Cb6",
+    "pickaxeNFT": "https://sepolia.etherscan.io/address/0xAB2F5407cf2d6A7aEd976F670241b2a6D3B55D7F",
+    "miningEngine": "https://sepolia.etherscan.io/address/0x6D2743CdbEb8B998fCf748e93EF815a51A5Ee1b7",
+    "treasureNFT": "https://sepolia.etherscan.io/address/0x9d8f35858c6B2C9bd1708436744f325BDaeC5578"
+  }
+}
