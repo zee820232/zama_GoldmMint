@@ -7,7 +7,8 @@ import { Button } from '@/components/Button';
 import { getContractAddresses } from '@/contracts/addresses';
 import { MINING_ENGINE_ABI } from '@/contracts/abis';
 import { formatTimestamp } from '@/utils/helpers';
-import { Hammer, Zap, Shield, Lock, Sparkles, Cpu, TrendingUp, Battery } from 'lucide-react';
+import { Zap, Shield, Lock, Sparkles, Cpu, TrendingUp, Battery } from 'lucide-react';
+import { ThorHammer, ThorHammerIcon } from '@/components/ThorHammer';
 import { useChainId } from 'wagmi';
 
 export function MinePage() {
@@ -93,17 +94,17 @@ export function MinePage() {
       <div className="min-h-screen bg-gradient-to-b from-zama-dark-900 via-zama-dark-700 to-zama-dark-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-tech-grid-gold opacity-20" />
         <div className="container mx-auto px-4 py-20 text-center relative z-10">
-          <Hammer className="w-24 h-24 text-zama-gold-400 mx-auto mb-6 animate-goldFloat" />
-          <h2 className="text-4xl font-bold text-white mb-4">您还没有锄头</h2>
-          <p className="text-xl text-gray-300 mb-8">前往铸造页面获取您的第一把 FHE 加密锄头</p>
+          <ThorHammer className="w-24 h-24 mx-auto mb-6" level={5} animated glowing />
+          <h2 className="text-4xl font-bold text-white mb-4">您还没有雷神之锤</h2>
+          <p className="text-xl text-gray-300 mb-8">前往铸造页面获取您的第一把 FHE 加密雷神之锤</p>
           <Button
             variant="gold"
             size="lg"
             glow
             onClick={() => window.location.href = '/mint'}
           >
-            <Hammer className="w-5 h-5 mr-2" />
-            去铸造锄头
+            <ThorHammerIcon className="w-6 h-6 mr-2" level={5} />
+            去铸造雷神之锤
           </Button>
         </div>
       </div>
@@ -208,8 +209,8 @@ export function MinePage() {
             <Card variant="tech" className="mb-6 border-2 border-zama-gold-500/30 backdrop-blur-xl animate-scaleIn animation-delay-200">
               <CardHeader>
                 <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Hammer className="w-6 h-6 text-zama-gold-400" />
-                  选择锄头
+                  <ThorHammerIcon className="w-7 h-7 text-zama-gold-400" level={5} />
+                  选择雷神之锤
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -392,7 +393,7 @@ function PickaxeSelectCard({
           flex items-center justify-center shadow-lg
           ${Number(level) >= 5 ? 'animate-goldPulse' : ''}
         `}>
-          <Hammer className="w-6 h-6 text-white" />
+          <ThorHammerIcon className="w-8 h-8" level={Number(level)} />
         </div>
         <div className="text-left">
           <p className="text-white font-bold">#{tokenId.toString()}</p>

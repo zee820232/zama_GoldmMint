@@ -6,7 +6,8 @@ import { Button } from '@/components/Button';
 import { getContractAddresses } from '@/contracts/addresses';
 import { PICKAXE_NFT_ABI } from '@/contracts/abis';
 import { formatBigInt } from '@/utils/helpers';
-import { Hammer, Zap, Shield, Star, Battery, Cpu } from 'lucide-react';
+import { Zap, Shield, Star, Battery, Cpu } from 'lucide-react';
+import { ThorHammer, ThorHammerIcon } from '@/components/ThorHammer';
 import { useChainId } from 'wagmi';
 import { parseEther } from 'viem';
 import { initializeFHE, generateEncryptedLuck } from '@/utils/fhe';
@@ -118,9 +119,9 @@ export function MintPage() {
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-zama-orange/10 rounded-full blur-3xl animate-goldPulse animation-delay-300" />
 
         <div className="container mx-auto px-4 py-20 text-center relative z-10 animate-fadeIn">
-          <Hammer className="w-24 h-24 text-zama-gold-400 mx-auto mb-6 animate-goldFloat" />
+          <ThorHammer className="w-24 h-24 mx-auto mb-6" level={5} animated glowing />
           <h2 className="text-4xl font-bold text-white mb-4">请先连接钱包</h2>
-          <p className="text-xl text-gray-300 mb-8">连接钱包后即可铸造您的专属锄头 NFT</p>
+          <p className="text-xl text-gray-300 mb-8">连接钱包后即可铸造您的专属雷神之锤 NFT</p>
 
           {/* 示例卡片预览 */}
           <div className="mt-12 md:mt-16 max-w-4xl mx-auto">
@@ -146,7 +147,7 @@ export function MintPage() {
                     <div className={`w-16 h-16 mx-auto mb-3 rounded-lg bg-gradient-to-br ${colors[index]}
                                    ${level === 5 ? 'animate-goldPulse shadow-gold-glow' : ''}
                                    flex items-center justify-center shadow-lg`}>
-                      <Hammer className="w-8 h-8 text-white" />
+                      <ThorHammerIcon className="w-10 h-10" level={level} />
                     </div>
                     <div className="text-white font-bold">等级 {level}</div>
                     <div className="text-sm text-gray-400">{names[index]}</div>
@@ -171,10 +172,10 @@ export function MintPage() {
         {/* 标题区域 - 带动画 */}
         <div className="mb-12 text-center animate-fadeIn">
           <h1 className="text-5xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-            <Hammer className="w-12 h-12 text-zama-gold-400 animate-goldFloat" />
-            铸造锄头
+            <ThorHammer className="w-16 h-16" level={5} animated glowing />
+            铸造雷神之锤
           </h1>
-          <p className="text-xl text-gray-300">选择等级并支付 ETH 铸造您的专属锄头 NFT</p>
+          <p className="text-xl text-gray-300">选择等级并支付 ETH 铸造您的专属雷神之锤 NFT</p>
           <div className="mt-4 inline-block px-6 py-2 bg-zama-dark-800/50 backdrop-blur-md rounded-full border border-zama-gold-500/30">
             <p className="text-sm text-zama-gold-300">
               等级越高,收益越好,稀有掉落概率越高
@@ -444,7 +445,7 @@ function LevelCard({
               ${level >= 5 ? 'animate-goldPulse shadow-gold-glow' : ''}
               transition-transform duration-300
             `}>
-              <Hammer className="w-14 h-14 text-white drop-shadow-lg" />
+              <ThorHammer className="w-20 h-20" level={level} glowing={level >= 4} />
             </div>
             <h3 className="text-3xl font-bold mt-4 text-white">等级 {level}</h3>
             <span className={`
@@ -517,17 +518,17 @@ function LevelCard({
           >
             {minting ? (
               <>
-                <Hammer className="w-4 h-4 mr-1 animate-spin" />
+                <ThorHammerIcon className="w-5 h-5 mr-1 animate-spin" level={level} />
                 铸造中...
               </>
             ) : usingMockData ? (
               <>
-                <Hammer className="w-4 h-4 mr-1" />
+                <ThorHammerIcon className="w-5 h-5 mr-1" level={level} />
                 请连接正确网络
               </>
             ) : (
               <>
-                <Hammer className="w-4 h-4 mr-1" />
+                <ThorHammerIcon className="w-5 h-5 mr-1" level={level} />
                 立即铸造
               </>
             )}
