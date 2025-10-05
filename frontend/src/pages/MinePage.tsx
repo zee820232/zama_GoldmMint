@@ -85,13 +85,13 @@ export function MinePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">⛏️ 挖矿</h1>
-        <p className="text-gray-600">选择锄头开始挖矿,获取加密奖励</p>
+    <div className="container mx-auto px-4 py-6 md:py-8">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">⛏️ 挖矿</h1>
+        <p className="text-sm md:text-base text-gray-600">选择锄头开始挖矿,获取加密奖励</p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* 左侧: 统计信息 */}
         <div className="lg:col-span-1">
           <Card variant="elevated">
@@ -134,7 +134,7 @@ export function MinePage() {
 
         {/* 右侧: 锄头列表 */}
         <div className="lg:col-span-2">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {(pickaxes as bigint[]).map((tokenId: bigint) => (
               <PickaxeCardWithData
                 key={tokenId.toString()}

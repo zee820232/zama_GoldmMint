@@ -59,9 +59,9 @@ export function MintPage() {
           <p className="text-xl text-gray-300 mb-8">连接钱包后即可铸造您的专属锄头 NFT</p>
 
           {/* 示例卡片预览 */}
-          <div className="mt-16 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-zama-gold-400 mb-8">5 种等级锄头</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="mt-12 md:mt-16 max-w-4xl mx-auto">
+            <h3 className="text-xl md:text-2xl font-bold text-zama-gold-400 mb-6 md:mb-8">5 种等级锄头</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
               {[1, 2, 3, 4, 5].map((level, index) => {
                 const colors = [
                   'from-gray-400 to-gray-600',
@@ -131,7 +131,7 @@ export function MintPage() {
         )}
 
         {/* 卡片网格 - 带交错动画 */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 mb-12">
           {LEVELS.map((level, index) => (
             <div
               key={level}

@@ -126,19 +126,19 @@ export function PickaxeCard({ tokenId, attributes, onMine, onRepair, mining }: P
         <div className="flex items-center justify-between relative z-10">
           <div className="flex items-center gap-2">
             <div className={`
-              p-2 rounded-lg
+              p-1.5 md:p-2 rounded-lg
               bg-gradient-to-br ${levelStyles.gradient}
               ${mining ? 'animate-mining' : ''}
               shadow-lg
             `}>
-              <Hammer className="w-6 h-6 text-white" />
+              <Hammer className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <CardTitle className={`text-xl ${levelStyles.text}`}>
+            <CardTitle className={`text-base md:text-xl ${levelStyles.text}`}>
               锄头 #{tokenId.toString()}
             </CardTitle>
           </div>
           <span className={`
-            px-3 py-1 rounded-full text-sm font-bold
+            px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold
             bg-gradient-to-r ${levelStyles.gradient}
             text-white shadow-lg
             ${attributes.level >= 4 ? 'animate-glowPulse' : ''}
@@ -216,7 +216,7 @@ export function PickaxeCard({ tokenId, attributes, onMine, onRepair, mining }: P
         </div>
 
         {/* 操作按钮 */}
-        <div className="flex gap-2 mt-6">
+        <div className="flex flex-col sm:flex-row gap-2 mt-6">
           <Button
             variant={attributes.level >= 4 ? 'gold' : 'primary'}
             className="flex-1"
@@ -242,7 +242,7 @@ export function PickaxeCard({ tokenId, attributes, onMine, onRepair, mining }: P
             size="md"
             onClick={onRepair}
             disabled={attributes.durability === attributes.durabilityMax}
-            className="whitespace-nowrap"
+            className="sm:w-auto whitespace-nowrap"
           >
             修复
           </Button>

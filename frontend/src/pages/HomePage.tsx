@@ -12,33 +12,33 @@ export function HomePage() {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-zama-orange/10 rounded-full blur-3xl animate-goldPulse animation-delay-300" />
       
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-20 relative z-10">
+      <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
         <div className="text-center max-w-3xl mx-auto">
-          <div className="mb-8 flex justify-center">
-            <div className="p-6 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 rounded-full animate-goldPulse shadow-gold-glow">
-              <Hammer className="w-20 h-20 text-white animate-goldFloat" />
+          <div className="mb-6 md:mb-8 flex justify-center">
+            <div className="p-4 md:p-6 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 rounded-full animate-goldPulse shadow-gold-glow">
+              <Hammer className="w-16 h-16 md:w-20 md:h-20 text-white animate-goldFloat" />
             </div>
           </div>
 
-          <h1 className="text-5xl font-bold text-white mb-6 bg-gradient-to-r from-zama-gold-400 to-zama-amber bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6 bg-gradient-to-r from-zama-gold-400 to-zama-amber bg-clip-text text-transparent">
             Zama 矿工游戏
           </h1>
 
-          <p className="text-xl text-gray-300 mb-8">
+          <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 px-4">
             基于 Zama FHE 技术的完全保密链上挖矿游戏
             <br />
             <span className="text-zama-gold-300">您的收益、幸运值、掉落记录完全加密,只有您能看到</span>
           </p>
 
-          <div className="flex gap-4 justify-center">
-            <Link to="/mint">
-              <Button size="lg" variant="primary" className="group">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
+            <Link to="/mint" className="w-full sm:w-auto">
+              <Button size="lg" variant="primary" className="group w-full sm:w-auto">
                 开始游戏
                 <Hammer className="w-4 h-4 ml-2 group-hover:animate-bounce" />
               </Button>
             </Link>
-            <a href="https://docs.zama.ai" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline">
+            <a href="https://docs.zama.ai" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto">
                 了解 Zama FHE
               </Button>
             </a>
@@ -47,10 +47,10 @@ export function HomePage() {
       </div>
 
       {/* Features Section */}
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        <h2 className="text-3xl font-bold text-center mb-12 text-white">核心特性</h2>
+      <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-white">核心特性</h2>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           <Card variant="tech" className="border-2 border-zama-gold-500/30 hover:border-zama-gold-400/50 transition-all">
             <CardContent>
               <div className="text-center">
@@ -102,65 +102,65 @@ export function HomePage() {
       </div>
 
       {/* How it Works */}
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        <h2 className="text-3xl font-bold text-center mb-12 text-white">游戏流程</h2>
+      <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-white">游戏流程</h2>
 
-        <div className="max-w-3xl mx-auto space-y-8">
-          <div className="flex items-start gap-4 p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
-            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-gold-glow">
+        <div className="max-w-3xl mx-auto space-y-6 md:space-y-8">
+          <div className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
+            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-base md:text-lg shadow-gold-glow">
               1
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2 text-white flex items-center gap-2">
-                <Hammer className="w-5 h-5 text-zama-gold-400" />
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-white flex items-center gap-2">
+                <Hammer className="w-4 h-4 md:w-5 md:h-5 text-zama-gold-400" />
                 铸造锄头 NFT
               </h3>
-              <p className="text-gray-300">
+              <p className="text-sm md:text-base text-gray-300">
                 选择锄头等级(1-5),支付入场费铸造您的专属锄头。高等级锄头有更好的属性和更高的稀有掉落概率。
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-4 p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
-            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-gold-glow">
+          <div className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
+            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-base md:text-lg shadow-gold-glow">
               2
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2 text-white flex items-center gap-2">
-                <Zap className="w-5 h-5 text-zama-gold-400" />
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-white flex items-center gap-2">
+                <Zap className="w-4 h-4 md:w-5 md:h-5 text-zama-gold-400" />
                 开始挖矿
               </h3>
-              <p className="text-gray-300">
+              <p className="text-sm md:text-base text-gray-300">
                 使用锄头挖矿,每次消耗 10 耐久。根据随机掉落获得普通/稀有/史诗奖励。所有数据加密,只有您知道获得了什么。
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-4 p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
-            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-gold-glow">
+          <div className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
+            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-base md:text-lg shadow-gold-glow">
               3
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2 text-white flex items-center gap-2">
-                <Coins className="w-5 h-5 text-zama-gold-400" />
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-white flex items-center gap-2">
+                <Coins className="w-4 h-4 md:w-5 md:h-5 text-zama-gold-400" />
                 领取奖励
               </h3>
-              <p className="text-gray-300">
+              <p className="text-sm md:text-base text-gray-300">
                 累积足够收益后,通过前端重加密查看余额,然后领取 GOLD 代币和稀有物品。
               </p>
             </div>
           </div>
 
-          <div className="flex items-start gap-4 p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
-            <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-gold-glow">
+          <div className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-zama-dark-800/50 backdrop-blur-sm rounded-xl border border-zama-gold-500/30">
+            <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-zama-gold-500 to-zama-gold-600 text-white rounded-full flex items-center justify-center font-bold text-base md:text-lg shadow-gold-glow">
               4
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-2 text-white flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-zama-gold-400" />
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-white flex items-center gap-2">
+                <Cpu className="w-4 h-4 md:w-5 md:h-5 text-zama-gold-400" />
                 修复与升级
               </h3>
-              <p className="text-gray-300">
+              <p className="text-sm md:text-base text-gray-300">
                 使用 GOLD 代币修复锄头耐久(30% 燃烧通缩)。使用稀有物品获得临时加成。
               </p>
             </div>

@@ -59,23 +59,23 @@ export function InventoryPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">🎒 背包</h1>
-        <p className="text-gray-600">查看您的锄头、稀有物品和 GOLD 代币</p>
+    <div className="container mx-auto px-4 py-6 md:py-8">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">🎒 背包</h1>
+        <p className="text-sm md:text-base text-gray-600">查看您的锄头、稀有物品和 GOLD 代币</p>
       </div>
 
       {/* GOLD 余额 */}
-      <Card variant="elevated" className="mb-8">
+      <Card variant="elevated" className="mb-6 md:mb-8">
         <CardContent>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-yellow-100 rounded-full">
-                <Coins className="w-6 h-6 text-yellow-600" />
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="p-2 md:p-3 bg-yellow-100 rounded-full">
+                <Coins className="w-5 h-5 md:w-6 md:h-6 text-yellow-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">GOLD 代币余额</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-xs md:text-sm text-gray-600">GOLD 代币余额</p>
+                <p className="text-xl md:text-2xl font-bold text-gray-900">
                   {goldBalance !== undefined ? formatBigInt(goldBalance as bigint, 18) : '0'}
                 </p>
               </div>
@@ -85,8 +85,8 @@ export function InventoryPage() {
       </Card>
 
       {/* 锄头列表 */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">⛏️ 我的锄头</h2>
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">⛏️ 我的锄头</h2>
 
         {!pickaxes || (pickaxes as bigint[]).length === 0 ? (
           <Card variant="bordered">
@@ -99,7 +99,7 @@ export function InventoryPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {(pickaxes as bigint[]).map((tokenId: bigint) => (
               <PickaxeInventoryCard key={tokenId.toString()} tokenId={tokenId} />
             ))}
@@ -109,7 +109,7 @@ export function InventoryPage() {
 
       {/* 稀有物品 */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">✨ 稀有物品</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">✨ 稀有物品</h2>
 
         <Card variant="bordered">
           <CardContent>
@@ -122,7 +122,7 @@ export function InventoryPage() {
                 </p>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {(treasureItems as [bigint[], bigint[]])[0].map((itemId: bigint, index: number) => {
                   const balance = (treasureItems as [bigint[], bigint[]])[1][index];
                   if (balance === 0n) return null;

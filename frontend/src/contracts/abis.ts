@@ -3,7 +3,7 @@ export const PICKAXE_NFT_ABI = [
   'function balanceOf(address owner) view returns (uint256)',
   'function ownerOf(uint256 tokenId) view returns (address)',
   'function getAttributes(uint256 tokenId) view returns (uint8 level, uint16 durabilityMax, uint16 durability, uint8 efficiency)',
-  'function getLuck(uint256 tokenId) view returns (uint8)',
+  'function getLuck(uint256 tokenId) view returns (uint8)', // 返回加密的幸运值句柄
   'function getLevelConfig(uint8 level) view returns (tuple(uint256 price, uint16 durabilityMax, uint8 efficiencyMin, uint8 efficiencyMax, uint8 luckMin, uint8 luckMax))',
   'function tokensOfOwner(address owner) view returns (uint256[])',
 
@@ -18,8 +18,8 @@ export const PICKAXE_NFT_ABI = [
 
 export const MINING_ENGINE_ABI = [
   // 查询函数
-  'function getPlayerEarnings(address player) view returns (uint256)',
-  'function getPlayerEpicDrops(address player) view returns (uint256)',
+  'function getPlayerEarnings(address player) view returns (uint256)', // 返回加密的收益句柄 (euint64)
+  'function getPlayerEpicDrops(address player) view returns (uint256)', // 返回加密的史诗掉落句柄 (euint32)
   'function getPlayerStats(address player) view returns (uint256 miningCount, uint256 lastMiningTime)',
 
   // 交易函数
@@ -40,20 +40,28 @@ export const GOLD_TOKEN_ABI = [
   'function totalSupply() view returns (uint256)',
   'function allowance(address owner, address spender) view returns (uint256)',
   'function approve(address spender, uint256 amount) returns (bool)',
+  'function transfer(address to, uint256 amount) returns (bool)',
+  'function transferFrom(address from, address to, uint256 amount) returns (bool)',
 
   // 事件
   'event Transfer(address indexed from, address indexed to, uint256 value)',
+  'event Approval(address indexed owner, address indexed spender, uint256 value)',
 ] as const;
 
 export const TREASURE_NFT_ABI = [
   // ERC1155 查询
   'function balanceOf(address account, uint256 id) view returns (uint256)',
+  'function balanceOfBatch(address[] accounts, uint256[] ids) view returns (uint256[])',
   'function getPlayerItems(address player) view returns (uint256[] itemIds, uint256[] balances)',
   'function getItemName(uint256 itemId) view returns (string)',
 
   // 交易函数
   'function burn(address from, uint256 itemId, uint256 amount)',
+  'function setApprovalForAll(address operator, bool approved)',
+  'function isApprovedForAll(address account, address operator) view returns (bool)',
 
   // 事件
   'event TreasureMinted(address indexed to, uint256 indexed itemId, uint256 amount)',
+  'event TransferSingle(address indexed operator, address indexed from, address indexed to, uint256 id, uint256 value)',
+  'event ApprovalForAll(address indexed account, address indexed operator, bool approved)',
 ] as const;

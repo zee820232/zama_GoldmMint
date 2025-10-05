@@ -31,7 +31,7 @@ export function Card({
   return (
     <div
       className={cn(
-        'rounded-xl p-6 transition-all duration-300 relative',
+        'rounded-xl p-4 md:p-6 transition-all duration-300 relative',
         variants[variant],
         hoverEffects,
         glowEffect,
@@ -71,7 +71,7 @@ export function Card({
 
 export function CardHeader({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('mb-4', className)} {...props}>
+    <div className={cn('mb-3 md:mb-4', className)} {...props}>
       {children}
     </div>
   );
@@ -79,7 +79,7 @@ export function CardHeader({ className, children, ...props }: HTMLAttributes<HTM
 
 export function CardTitle({ className, children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h3 className={cn('text-2xl font-bold text-gray-900', className)} {...props}>
+    <h3 className={cn('text-xl md:text-2xl font-bold text-gray-900', className)} {...props}>
       {children}
     </h3>
   );
@@ -87,7 +87,7 @@ export function CardTitle({ className, children, ...props }: HTMLAttributes<HTML
 
 export function CardContent({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('space-y-4', className)} {...props}>
+    <div className={cn('space-y-3 md:space-y-4', className)} {...props}>
       {children}
     </div>
   );

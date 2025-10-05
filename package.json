@@ -6,10 +6,14 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
+    "clean": "hardhat clean",
+    "node": "hardhat node",
     "deploy:local": "hardhat run scripts/deploy.js --network localhost",
     "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
-    "interact": "hardhat run scripts/interact.js --network localhost",
-    "node": "hardhat node"
+    "deploy:zama": "hardhat run scripts/deploy.js --network zamaDevnet",
+    "interact:local": "hardhat run scripts/interact.js --network localhost",
+    "interact:zama": "hardhat run scripts/interact.js --network zamaDevnet",
+    "verify:sepolia": "hardhat verify --network sepolia"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +23,7 @@
     "@nomicfoundation/hardhat-ethers": "^3.1.0",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.3",
     "ethers": "^6.15.0",
     "hardhat": "^2.22.0"
   },

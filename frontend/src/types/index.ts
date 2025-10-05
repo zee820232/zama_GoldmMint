@@ -4,7 +4,16 @@ export interface PickaxeAttributes {
   durabilityMax: number;
   durability: number;
   efficiency: number;
-  luck?: bigint; // 加密值,需重加密查看
+  luck?: number; // 解密后的幸运值
+}
+
+// 锄头完整信息 (包括解密后的幸运值)
+export interface PickaxeFullInfo extends PickaxeAttributes {
+  luck: number | null;
+  isLoading: boolean;
+  isError: boolean;
+  error: Error | null;
+  refetch: () => void;
 }
 
 // 锄头配置
@@ -21,6 +30,18 @@ export interface PickaxeLevelConfig {
 export interface PlayerStats {
   miningCount: bigint;
   lastMiningTime: bigint;
+}
+
+// 玩家完整挖矿数据 (包括解密后的收益和史诗掉落)
+export interface PlayerMiningData {
+  miningCount?: bigint;
+  lastMiningTime?: bigint;
+  earnings: bigint | null;
+  epicDrops: number | null;
+  isLoading: boolean;
+  isError: boolean;
+  error: Error | null;
+  refetch: () => void;
 }
 
 // 稀有物品类型
@@ -46,14 +67,6 @@ export interface ContractAddresses {
   treasureNFT: `0x${string}`;
 }
 
-// FHE 实例类型
-export interface FhevmInstance {
-  createEncryptedInput: (contractAddress: string, userAddress: string) => any;
-  getPublicKey: (contractAddress: string) => Promise<string>;
-  generateKeypair: () => { publicKey: Uint8Array; privateKey: Uint8Array };
-  decrypt: (ciphertext: Uint8Array, privateKey: Uint8Array) => bigint;
-}
-
 // 交易状态
 export type TxStatus = 'idle' | 'pending' | 'success' | 'error';
 
@@ -62,4 +75,12 @@ export interface MiningResult {
   txHash: string;
   success: boolean;
   remainingDurability: number;
+}
+
+// FHE 重加密结果
+export interface ReencryptResult<T> {
+  decryptedValue: T | null;
+  isLoading: boolean;
+  error: Error | null;
+  refetch: () => Promise<void>;
 }

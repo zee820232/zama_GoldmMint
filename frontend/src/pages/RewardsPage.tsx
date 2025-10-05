@@ -75,13 +75,13 @@ export function RewardsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">💰 奖励中心</h1>
-        <p className="text-gray-600">查看您的加密收益并领取奖励</p>
+    <div className="container mx-auto px-4 py-6 md:py-8">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">💰 奖励中心</h1>
+        <p className="text-sm md:text-base text-gray-600">查看您的加密收益并领取奖励</p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* 左侧: 统计信息 */}
         <div className="lg:col-span-1 space-y-6">
           <Card variant="elevated">
@@ -128,7 +128,7 @@ export function RewardsPage() {
         </div>
 
         {/* 右侧: 领取区域 */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-4 md:space-y-6">
           {/* 成功提示 */}
           {isGoldSuccess && (
             <div className="p-4 bg-green-50 border-2 border-green-200 rounded-lg">
@@ -187,7 +187,7 @@ export function RewardsPage() {
                     value={claimAmount}
                     onChange={(e) => setClaimAmount(e.target.value)}
                     placeholder="输入要领取的金额"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary-500 focus:outline-none"
+                    className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:border-primary-500 focus:outline-none min-h-[48px]"
                     min="0"
                     step="0.01"
                   />
@@ -251,7 +251,7 @@ export function RewardsPage() {
                     value={treasureCount}
                     onChange={(e) => setTreasureCount(e.target.value)}
                     placeholder="输入要领取的数量"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-primary-500 focus:outline-none"
+                    className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:border-primary-500 focus:outline-none min-h-[48px]"
                     min="1"
                     step="1"
                   />
