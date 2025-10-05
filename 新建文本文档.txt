@@ -1,0 +1,130 @@
+https://github.com/zama-ai/fhevm 官方文档 
+https://github.com/ntclick/spingamefhe 作品
+https://github.com/NarutoLab/fhevm-zama-mail-app 作品
+https://github.com/huaigu/number-verse-arena 作品
+https://github.com/zama-ai/fhevm-react-template 模板
+白皮书 https://docs.zama.ai/protocol/zama-protocol-litepaper#creating-confidential-applications
+
+我需要你调用deepwidki这些GIT仓库和网站了解ZAMA的开发要点。和参考作品。然后调用agnets做一个总结. 帮我做一个基于Zama 技术的矿工应用
+
+需要玩家调用agents做一个设计计划。然后实施
+一、总体目标
+
+玩家支付入场费（或燃料），获得一把 NFT 锄头（不同等级/稀有度）。
+
+玩家发起“挖矿”动作：消耗锄头耐久并按概率产出“黄金”代币或稀有物品。
+
+状态/逻辑尽可能利用 Zama 的保密能力（FHEVM / Confidential contracts），保证玩家数据/收获在链上保密同时可验证/可组合。
+GitHub
++1
+
+二、关键技术选型（推荐）
+
+协议层 / 隐私层：Zama Protocol（使用 fhEVM / Zama Relayer SDK）以实现“加密状态 + 可计算”的合约。参考官方文档与 litepaper。
+docs.zama.ai
++1
+
+智能合约语言：Solidity（兼容 EVM） + Zama 的 FHE 开发流程（把敏感计算移到 FHE 合约/受保护函数）。
+zama.ai
++1
+
+随机数 / 概率：链上可信随机（例如 VRF）或使用受信任的 relayer/oracle，把随机/抽样结果与 FHE 合约交互（需设计抗操纵流程）。
+
+存储：链上存证（NFT、事件）、部分大数据或日志可上 IPFS/去中心化存储（如需）。
+
+后端/Relayer：Relayer SDK（Zama 提供）用于在保密合约与前端之间桥接、提交加密交易与密文状态变更。
+zama.ai
+
+密钥管理：参考 Zama KMS (threshold key system) 做阈值解密/密钥管理（如果需要多方签名或去中心化密钥）。
+GitHub
+
+三、系统架构（高层）
+
+前端（Web/移动）
+
+连接钱包（支持 MetaMask 等 EVM）。
+
+展示背包（NFT 锄头）、矿场 UI、挖矿按钮、信息面板（耐久、上次挖矿时间等）。
+
+与后端/relayer 交互提交挖矿请求（签名交易）。
+
+Relayer / Backend
+
+接收用户签名的请求，按 Zama Relayer SDK 格式封装并提交到 FHE 合约/节点。
+
+负责随机性（若采用 off-chain 随机），并将随机结果提交给合约（带签名与审计）。
+
+可负责游戏内经济统计、排名、批量任务。
+zama.ai
+
+链上（FHE 合约 / 普通合约）
+
+铸造合约（NFT）：锄头 NFT（等级、耐久上链元数据或在加密状态中）。
+
+挖矿合约（Confidential）：处理耐久消耗、根据锄头等级与随机性决定产出。敏感变量（玩家账户余额/收益）可在 FHE 环境中保密处理。
+GitHub
++1
+
+KMS / Ops（如果需要 threshold 解密或多方密钥管理）。
+GitHub
+
+四、玩法系统设计（核心规则建议）
+4.1 锄头（Pickaxe）属性
+
+每把锄头 NFT 包含（或映射）这些字段（示例）：
+
+level：等级（1..5）；
+
+durability_max：最大耐久（比如 100）；
+
+durability：当前耐久（每次挖矿减少）；
+
+efficiency：用于调整产出率的基数；
+
+luck：影响稀有掉落的额外权重（可选）。
+
+锄头可通过铸造、合成、交易获得。低等级可修理（消耗代币），高等级修理成本更高。
+
+4.2 挖矿流程（单次）
+
+玩家发起 mine(pickaxe_id) 请求并签名。
+
+后端/relayer 或链上合约检查耐久是否足够。
+
+随机数 r ∈ [0,1) 生成（来源见后述）。
+
+根据 level 映射概率表选择产出（黄金或稀有物品）。
+
+扣除耐久：durability -= durability_cost(level)（可为常数或随机范围）。
+
+产出发放（直接上链写入或发放暗号化收据，玩家可 later reveal）。
+
+4.3 概率示例（示意，不要直接用于经济平衡）
+
+用加权概率表示不同等级产出的基础概率（可进一步用 luck 参数调整）：
+
+等级	黄金（常见）	稀有（稀有项）	史诗（极稀有）
+1	85%	14%	1%
+2	75%	22%	3%
+3	65%	30%	5%
+4	50%	40%	10%
+5	30%	50%	20%
+
+（可以用“概率池 + 随机抽样”实现，低等级也能中到高稀有率，但概率极低）
+
+4.4 耐久与消耗
+
+每次挖矿固定消耗：例如 durability_cost(level) = base_cost（也可按等级变化）。
+
+或者让高等级锄头更耐用（durability_max 高，或 durability_cost 低）。
+
+加入“幸运消耗”机制：如果命中稀有，耐久消耗可能更高/更低（可作为玩法变体）。
+
+4.5 入场费 / 经济
+
+玩家支付一次性铸造费用或每次挖矿燃料（gas + 平台手续费）。
+
+黄金可作为消耗货币（用于修理、升级）或抽取到可交易代币/合成材料。
+
+设计烧毁/回收机制控制通胀（例如修理消耗黄金并销毁 30%）。
+

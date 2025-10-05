@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zama 动画测试页面</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #0f172a, #1e293b, #0f172a);
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* 动画定义 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+      }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(234, 179, 8, 0.6));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(234, 179, 8, 1));
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* 背景装饰 */
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      top: 80px;
+      left: 40px;
+      width: 300px;
+      height: 300px;
+      background: rgba(59, 130, 246, 0.2);
+    }
+
+    .orb-2 {
+      bottom: 80px;
+      right: 40px;
+      width: 400px;
+      height: 400px;
+      background: rgba(168, 85, 247, 0.2);
+      animation-delay: 300ms;
+    }
+
+    /* 容器 */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* 标题 */
+    .title {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .title h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .icon {
+      font-size: 48px;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: #cbd5e1;
+    }
+
+    /* 测试卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 16px;
+      padding: 24px;
+      border: 2px solid;
+      animation: scaleIn 0.4s ease-out forwards;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-1 {
+      border-color: #9ca3af;
+      animation-delay: 0ms;
+    }
+
+    .card-2 {
+      border-color: #22c55e;
+      animation-delay: 100ms;
+    }
+
+    .card-3 {
+      border-color: #3b82f6;
+      animation-delay: 200ms;
+    }
+
+    .card-4 {
+      border-color: #a855f7;
+      animation-delay: 300ms;
+    }
+
+    .card-5 {
+      border-color: #eab308;
+      animation-delay: 400ms;
+      animation: scaleIn 0.4s ease-out 400ms forwards, glowPulse 2s ease-in-out infinite;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .card-text {
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    /* 成功横幅 */
+    .success-banner {
+      background: linear-gradient(to right, #22c55e, #10b981);
+      padding: 24px;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      animation: fadeIn 0.6s ease-out;
+      border: 2px solid #86efac;
+      box-shadow: 0 10px 40px rgba(34, 197, 94, 0.3);
+    }
+
+    .emoji {
+      font-size: 32px;
+      display: inline-block;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    .emoji:last-child {
+      animation-delay: 200ms;
+    }
+
+    /* 检查列表 */
+    .checklist {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      animation: fadeIn 0.8s ease-out 500ms both;
+    }
+
+    .checklist h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #fbbf24;
+    }
+
+    .checklist ul {
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .check-icon {
+      color: #22c55e;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景光球 -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <div class="container">
+    <!-- 标题 -->
+    <div class="title">
+      <h1>
+        <span class="icon">🔨</span>
+        Zama 动画系统测试
+      </h1>
+      <p class="subtitle">如果您能看到动画效果,说明浏览器完全支持!</p>
+    </div>
+
+    <!-- 成功横幅 -->
+    <div class="success-banner">
+      <span class="emoji">✨</span>
+      恭喜!您的浏览器支持所有动画效果!
+      <span class="emoji">🎉</span>
+    </div>
+
+    <!-- 测试卡片 -->
+    <div class="card-grid">
+      <div class="card card-1">
+        <div class="card-title">等级 1</div>
+        <div class="card-text">普通 - 灰色边框</div>
+      </div>
+      <div class="card card-2">
+        <div class="card-title">等级 2</div>
+        <div class="card-text">优良 - 绿色边框</div>
+      </div>
+      <div class="card card-3">
+        <div class="card-title">等级 3</div>
+        <div class="card-text">稀有 - 蓝色边框</div>
+      </div>
+      <div class="card card-4">
+        <div class="card-title">等级 4</div>
+        <div class="card-text">史诗 - 紫色边框</div>
+      </div>
+      <div class="card card-5">
+        <div class="card-title">等级 5</div>
+        <div class="card-text">传说 - 金色发光!</div>
+      </div>
+    </div>
+
+    <!-- 检查列表 -->
+    <div class="checklist">
+      <h2>🎯 您应该看到的效果:</h2>
+      <ul>
+        <li>
+          <span class="check-icon">✓</span>
+          深色渐变背景 (蓝黑色)
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          两个脉冲的浮动光球 (蓝色和紫色)
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          标题淡入动画
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          🔨 锤子图标上下弹跳
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          成功横幅淡入 + 表情弹跳
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          5 个卡片依次出现 (交错动画)
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          等级 5 金色卡片发光脉冲
+        </li>
+        <li>
+          <span class="check-icon">✓</span>
+          悬停卡片时放大效果
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // 检测动画支持
+    console.log('🎨 动画系统测试');
+    console.log('浏览器:', navigator.userAgent);
+    console.log('支持 CSS 动画:', CSS.supports('animation', 'fadeIn 1s'));
+    console.log('支持 GPU 加速:', CSS.supports('transform', 'translateZ(0)'));
+    console.log('减少动画模式:', window.matchMedia('(prefers-reduced-motion: reduce)').matches ? '已启用' : '未启用');
+  </script>
+</body>
+</html>

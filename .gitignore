@@ -1,0 +1,40 @@
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+git rm -r --cached node_modules
+git rm --cached .env
+git rm --cached coverage
+git rm --cached coverage.json
+git rm --cached typechain
+git rm --cached typechain-types
+git rm --cached cache
+git rm --cached artifacts
+git rm --cached .idea
+git rm --cached .vscode
+git rm --cached *.swp
+git rm --cached *.swo
+git rm --cached .DS_Store
+git rm --cached .spec-workflow
+git rm --cached .playwright-mcp
+git rm --cached DEPLOYMENT_GUIDE.md
+git rm --cached DEPLOYMENT_ISSUE.md
+git rm --cached GATEWAY_INTEGRATION_GUIDE.md
+git rm --cached PROJECT_SUMMARY.md
